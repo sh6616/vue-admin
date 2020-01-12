@@ -89,13 +89,12 @@ import {
   validatePassWord,
   validatecode
 } from "@/utils/validate.js";
-import { reactive, ref, isRef, toRef, onMounted } from "@vue/composition-api";
 export default {
   name: "login",
-  setup(props, context) {
+  data() {
     // form表单数据
     //验证用户名
-    let validateUsername = (rule, value, callback) => {
+    var validateUsername = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入用户名"));
       } else if (validateEmail(value)) {
@@ -105,9 +104,9 @@ export default {
       }
     };
     //验证密码
-    let validatePassword = (rule, value, callback) => {
-      ruleForm.password = stripscript(value);
-      value = ruleForm.password;
+    var validatePassword = (rule, value, callback) => {
+      this.ruleForm.password = stripscript(value);
+      value = this.ruleForm.password;
       if (value === "") {
         callback(new Error("请输入密码"));
       } else if (validatePassWord(value)) {
@@ -117,83 +116,82 @@ export default {
       }
     };
     //验证重复密码
-    let validatePasswords = (rule, value, callback) => {
-      //如果模块值为login，直接通过
-      console.log(value)
-      if (model.value === "login") { callback() }
-      ruleForm.passwords = stripscript(value);
-      value = ruleForm.passwords;
+    var validatePasswords = (rule, value, callback) => {
+      this.ruleForm.passwords = stripscript(value);
+      value = this.ruleForm.passwords;
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value != ruleForm.password) {
+      } else if (value != this.ruleForm.password) {
         callback(new Error("重复密码不正确"));
       } else {
         callback();
       }
     };
     //验证验证码
-    let validateCode = (rule, value, callback) => {
+    var validateCode = (rule, value, callback) => {
+      //如果模块值为login，直接通过
+      if (this.model === "login") {
+        callback();
+      }
       if (value === "") {
-        callback(new Error("请输入验证码"));
+        return callback(new Error("请输入验证码"));
       } else if (validatecode(value)) {
         callback(new Error("验证码格式错误"));
       } else {
         callback();
       }
-    }
-    //这里防止data数据，生命周期，自定义的函数
-    const menTab = reactive([
-      { txt: "登录", current: true, type: "login" },
-      { txt: "注册", current: false, type: "register" }
-    ])
-    //模块值
-    const model = ref("login")
-    //表单数据
-    const ruleForm = reactive({
+    };
+    return {
+      menTab: [
+        { txt: "登录", current: true, type: "login" },
+        { txt: "注册", current: false, type: "register" }
+      ],
+      //模块值
+      model: "login",
+      //表单数据
+      ruleForm: {
         username: "",
         password: "",
         passwords: "",
         code: ""
-    })
-    //表单的规则
-    const rules = reactive({
+      },
+      rules: {
         username: [{ validator: validateUsername, trigger: "blur" }],
         password: [{ validator: validatePassword, trigger: "blur" }],
         passwords: [{ validator: validatePasswords, trigger: "blur" }],
         code: [{ validator: validateCode, trigger: "blur" }]
-    })
-    //判断model是不是基础数据类型
-    console.log(isRef(model) ? true : false)
-    //声明函数
-    const toggleMenu = (data => {
+      }
+    };
+  },
+  created() {},
+  //挂在完成后执行的
+  mounted() {},
+  //写函数的地方
+  methods: {
+    toggleMenu(data) {
       // this.menTab.forEach(elem) => {
       //   elem.current = false
       // }
-      console.log(data)
-      for (let i = 0; i < menTab.length; i++) {
-        menTab[i].current = false;
+      for (let i = 0; i < this.menTab.length; i++) {
+        this.menTab[i].current = false;
       }
       //高光
       data.current = true;
       //修改模块值
-      model.value = data.type;
-    })
-    const submitForm = (formName => {
-      context.refs[formName].validate(valid => {
+      this.model = data.type;
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
         } else {
           console.log("error submit!!");
           return false;
         }
-      })
-    })
-    //生命周期 挂在完成后
-    onMounted(()=>{
-
-    })
-    return {
-      menTab,model,ruleForm,rules,toggleMenu,submitForm
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 };
