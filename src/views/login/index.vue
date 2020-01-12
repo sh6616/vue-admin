@@ -63,7 +63,7 @@
               ></el-input
             ></el-col>
             <el-col :span="9"
-              ><el-button type="success" class="block"
+              ><el-button type="success" class="block" @click="getSms()"
                 >获取验证码</el-button
               ></el-col
             >
@@ -89,7 +89,8 @@ import {
   validatePassWord,
   validatecode
 } from "@/utils/validate.js";
-import { reactive, ref, isRef, toRef, onMounted } from "@vue/composition-api";
+import { reactive, ref, onMounted } from "@vue/composition-api";
+import { GetSms } from "@/api/login";
 export default {
   name: "login",
   setup(props, context) {
@@ -119,8 +120,9 @@ export default {
     //验证重复密码
     let validatePasswords = (rule, value, callback) => {
       //如果模块值为login，直接通过
-      console.log(value)
-      if (model.value === "login") { callback() }
+      if (model.value === "login") {
+        callback();
+      }
       ruleForm.passwords = stripscript(value);
       value = ruleForm.passwords;
       if (value === "") {
@@ -140,36 +142,36 @@ export default {
       } else {
         callback();
       }
-    }
+    };
     //这里防止data数据，生命周期，自定义的函数
     const menTab = reactive([
       { txt: "登录", current: true, type: "login" },
       { txt: "注册", current: false, type: "register" }
-    ])
+    ]);
     //模块值
-    const model = ref("login")
+    const model = ref("login");
     //表单数据
     const ruleForm = reactive({
-        username: "",
-        password: "",
-        passwords: "",
-        code: ""
-    })
+      username: "",
+      password: "",
+      passwords: "",
+      code: ""
+    });
     //表单的规则
     const rules = reactive({
-        username: [{ validator: validateUsername, trigger: "blur" }],
-        password: [{ validator: validatePassword, trigger: "blur" }],
-        passwords: [{ validator: validatePasswords, trigger: "blur" }],
-        code: [{ validator: validateCode, trigger: "blur" }]
-    })
+      username: [{ validator: validateUsername, trigger: "blur" }],
+      password: [{ validator: validatePassword, trigger: "blur" }],
+      passwords: [{ validator: validatePasswords, trigger: "blur" }],
+      code: [{ validator: validateCode, trigger: "blur" }]
+    });
     //判断model是不是基础数据类型
-    console.log(isRef(model) ? true : false)
+    // console.log(isRef(model) ? true : false)
     //声明函数
-    const toggleMenu = (data => {
+    const toggleMenu = data => {
       // this.menTab.forEach(elem) => {
       //   elem.current = false
       // }
-      console.log(data)
+      console.log(data);
       for (let i = 0; i < menTab.length; i++) {
         menTab[i].current = false;
       }
@@ -177,8 +179,17 @@ export default {
       data.current = true;
       //修改模块值
       model.value = data.type;
-    })
-    const submitForm = (formName => {
+    };
+    //获取验证码
+    const getSms = () => {
+      let data  = {
+        username: ruleForm.username
+      }
+      GetSms(data);
+    };
+    //提交表单
+
+    const submitForm = formName => {
       context.refs[formName].validate(valid => {
         if (valid) {
           alert("submit!");
@@ -186,15 +197,19 @@ export default {
           console.log("error submit!!");
           return false;
         }
-      })
-    })
+      });
+    };
     //生命周期 挂在完成后
-    onMounted(()=>{
-
-    })
+    onMounted(() => {});
     return {
-      menTab,model,ruleForm,rules,toggleMenu,submitForm
-    }
+      menTab,
+      model,
+      ruleForm,
+      rules,
+      toggleMenu,
+      submitForm,
+      getSms
+    };
   }
 };
 </script>
