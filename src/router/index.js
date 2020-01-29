@@ -16,7 +16,14 @@ const routes = [
   {
     path: "/console",
     name: "Console",
-    component: () => import("../views/Layout/index")
+    component: () => import("../views/Layout/index"),
+    children: [
+      {
+        path: "/console",
+        name: "Console",
+        component: () => import("../views/Console/index")
+      }
+    ]
   }
 
 ];
