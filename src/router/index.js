@@ -12,7 +12,13 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/login/index")
+  },
+  {
+    path: "/console",
+    name: "Console",
+    component: () => import("../views/Layout/index")
   }
+
 ];
 
 const router = new VueRouter({

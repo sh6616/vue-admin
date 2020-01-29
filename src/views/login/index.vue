@@ -150,6 +150,7 @@ export default {
       }
     };
     //这里防止data数据，生命周期，自定义的函数
+
     const menuTab = reactive([
       { txt: "登录", current: true, type: "login" },
       { txt: "注册", current: false, type: "register" }
@@ -268,7 +269,9 @@ export default {
       };
       Login(requstetData)
         .then(response => {
-          console.log("登陆成功");
+          root.$router.push({
+            name: 'Console'
+          })
         })
         .catch(error => {});
     };
