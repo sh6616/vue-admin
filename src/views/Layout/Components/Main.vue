@@ -10,10 +10,11 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
+@import "../../../styles/config";
 #main-wrap {
   position: fixed;
-  left: 250px;
+  left: $navMenu;
   top: 75px;
   right: 0;
   bottom: 0;

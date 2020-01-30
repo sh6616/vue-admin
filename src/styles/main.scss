@@ -1,6 +1,3 @@
 @import "./normalize.scss";
 @import "./config.scss";
-
-body {
-  background-color: $color;
-}
+@import "./elementui.scss"

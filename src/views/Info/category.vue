@@ -1,12 +1,15 @@
 <template>
   <div>
-    我是子组件
+    信息的分类
   </div>
 </template>
 
 <script>
 export default {
-
+  name: "infoIndex",
+  setup(props) {
+    
+  }
 }
 </script>
 
