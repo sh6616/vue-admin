@@ -20,7 +20,6 @@ export default {
     }
   },
   setup(props) {
-    console.log(props)
     const msg = ref("手把手撸吗教学");
     const iconName = computed(() => `#icon-${props.iconClass}`)
     const svgClass = computed(() => {

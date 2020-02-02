@@ -96,7 +96,7 @@ import {
 } from "@/utils/validate.js";
 import sha1 from "js-sha1";
 import { reactive, ref, onMounted } from "@vue/composition-api";
-import { GetSms, Register, Login } from "@/api/login";
+import { GetSms, Register } from "@/api/login";
 export default {
   name: "login",
   setup(props, { refs, root }) {
@@ -267,13 +267,22 @@ export default {
         password: sha1(ruleForm.password),
         code: ruleForm.code
       };
-      Login(requstetData)
+      root.$store.dispatch('login',requstetData)
         .then(response => {
           root.$router.push({
             name: 'Console'
           })
+        }).catch(error => {
+          console.log(error)
         })
-        .catch(error => {});
+      // .catch(error => {});
+      // Login(requstetData)
+      //   .then(response => {
+      //     root.$router.push({
+      //       name: 'Console'
+      //     })
+      //   })
+      //   .catch(error => {});
     };
     //注册
     const register = () => {

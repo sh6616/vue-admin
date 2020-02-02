@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>JavaScript Array.find()</h1>
+
+<p id="demo"></p>
+
+<script>
+  function fn2(){
+    console.log('fn2被调用了')
+  }
+  function fn(num) {
+    // debugger
+    return new Promise(function(reslove,reject){
+      if((typeof 1) == 'number'){
+        reslove(999999)
+      }else{
+        reject()
+      }
+    })
+  }
+  fn(2).then(function(reslove){
+      console.log('相等')
+      console.log(reslove)
+      fn2()
+    }).catch(function(){
+      console.log('不')
+    })
+  // console.log(fn('num'))
+  // console.log(typeof 1 == 'number')
+</script>
+
+</body>
+</html>

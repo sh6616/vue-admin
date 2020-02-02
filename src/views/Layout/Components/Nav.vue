@@ -1,5 +1,6 @@
 <template>
   <div id="nav-wrap">
+    <div class="logo"><img src="../../../assets/images/logo.png" alt="" /></div>
     <el-menu
       default-active="1-4-1"
       class="el-menu-vertical-demo"
@@ -32,14 +33,24 @@
 </template>
 
 <script>
-import { reactive, ref, isRef, toRefs, onMounted } from "@vue/composition-api";
+import {
+  reactive,
+  ref,
+  isRef,
+  toRefs,
+  onMounted,
+  computed
+} from "@vue/composition-api";
 export default {
   name: "navMenu",
   setup(props, { root }) {
     //data数据
-    const isCollapse = ref(false);
+    // const isCollapse = ref(false);
     const routers = reactive(root.$router.options.routes);
-    console.log(routers);
+    //监听
+    const isCollapse = computed(() => {
+      return root.$store.state.isCollapse;
+    });
     //函数
     const handleOpen = (key, keyPath) => {
       console.log(key, keyPath);
@@ -61,6 +72,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../styles/config";
+.logo {
+  text-align: center;
+  ing {
+    margin: 28px auto 25px;
+    width: 92px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+  }
+}
 #nav-wrap {
   position: fixed;
   top: 0;
@@ -68,9 +91,28 @@ export default {
   width: $navMenu;
   height: 100vh;
   background-color: #344a5f;
+  // @include webkit(transition,all .3s ease 0s);
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  -ms-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
   svg {
     font-size: 20px;
-    margin-right: 10px
+    margin-right: 10px;
+  }
+}
+.open {
+  #nav-wrap {
+    width: $navMenu;
+  }
+}
+.close {
+  #nav-wrap {
+    width: $navMenuMin;
+  }
+  .logo img {
+    width: 70%;
   }
 }
 </style>

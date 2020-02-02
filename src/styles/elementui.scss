@@ -9,3 +9,19 @@
 li.el-submenu {
   &.is-active.is-opened .el-submenu__title {background-color: $mainColor !important;}
 }
+.close {
+  .el-submenu {
+      &.is-opened {
+          > .el-submenu__title {
+              background-color: #f56c6c !important;
+          }
+      }
+  }
+}
+.el-menu--vertical {
+  .el-menu { background-color: white !important; }
+  .el-menu-item { line-height: 56px; color: black !important;}
+  .el-menu-item:hover {
+      background-color: #f56c6c !important;
+  }
+}
