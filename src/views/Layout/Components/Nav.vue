@@ -49,7 +49,7 @@ export default {
     const routers = reactive(root.$router.options.routes);
     //监听
     const isCollapse = computed(() => {
-      return root.$store.state.isCollapse;
+      return root.$store.state.app.isCollapse;
     });
     //函数
     const handleOpen = (key, keyPath) => {

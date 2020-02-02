@@ -6,6 +6,7 @@
     </div>
     <div class="pull-right">
       <div class="user-info pull-left">
+        <img src="../../../assets/images/face.jpg" alt="">
           管理员
       </div>
       <div class="header-icon pull-left">
@@ -66,8 +67,14 @@ export default {
   height: 100%;
   padding: 0 32px;
   border-right: 1px solid #ededed;
-  * .header-icon {
+  + .header-icon {
     padding: 0 28px;
   }
+  img {
+        display: inline-block;
+        margin-bottom: -12px;
+        margin-right: 18px;
+        border-radius: 50px;
+    }
 }
 </style>
